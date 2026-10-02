@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTMLエディタ</title>
+<link rel="stylesheet" href="src/editor.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">HTMLエディタ<small>v0.1 試作</small></div>
+  <button class="btn" id="btnOpen">ファイルを開く</button>
+  <span class="filename" id="fileName">ファイル未選択</span>
+  <div class="seg" id="viewSeg" hidden>
+    <button data-view="doc" class="on">資料</button>
+    <button data-view="data">データ<span class="badge" id="dataCount"></span></button>
+  </div>
+  <div class="seg" id="modeSeg" hidden title="操作モードでは、タブの切り替えや開閉など資料をふだんどおり操作できます">
+    <button data-mode="edit" class="on">✎ 編集</button>
+    <button data-mode="operate">👆 操作</button>
+  </div>
+  <div class="spacer"></div>
+  <span class="unsaved" id="unsaved"></span>
+  <button class="btn" id="btnUndo" disabled title="⌘Z / Ctrl+Z">↩ 1つ戻す</button>
+  <div class="save-wrap">
+    <button class="btn primary" id="btnSave" disabled>保存 ▾</button>
+    <div class="save-menu" id="saveMenu">
+      <label id="optOverwrite"><input type="radio" name="savemode" value="overwrite"> 元のファイルを上書き
+        <span class="desc">最初の上書きの前に、編集前の内容を「ダウンロード」フォルダへ自動で残します</span></label>
+      <label><input type="radio" name="savemode" value="saveas"> 別名で保存
+        <span class="desc">元のファイルはそのまま残ります</span></label>
+      <div class="row"><button class="btn primary" id="btnSaveDo">この方法で保存</button></div>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="stage" id="stage">
+    <div class="dropzone" id="dropzone">
+      <div class="dz-inner">
+        <p class="dz-title">編集したい HTML ファイルを、ここにドラッグ＆ドロップ</p>
+        <p class="dz-sub">または上の「ファイルを開く」から選んでください。読み込んだ資料は外部に送信されません。</p>
+      </div>
+    </div>
+    <div class="frames" id="frames"></div>
+    <div class="overlay" id="overlay">
+      <div class="box parent" id="boxParent"></div>
+      <div class="box hover" id="boxHover"></div>
+      <div class="box selected" id="boxSelected"></div>
+      <div class="floatbar" id="floatbar"></div>
+    </div>
+    <div class="dataview" id="dataview" hidden></div>
+  </div>
+
+  <aside class="side">
+    <h4>選択中</h4>
+    <div class="panel" id="panel"><p class="empty">資料を開くと、ここに編集の項目が出ます。</p></div>
+    <h4>編集履歴（この画面を閉じるまで）</h4>
+    <div class="history" id="history"><p class="empty">まだ変更はありません。</p></div>
+  </aside>
+</div>
+
+<footer class="status">
+  <span id="statusMode"></span>
+  <span>編集前バックアップ: <b id="backupName">未作成（最初の上書き保存の前に作成）</b></span>
+  <span class="spacer"></span>
+  <span>読み込んだ資料は外部に送信されません</span>
+</footer>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept=".html,.htm,text/html" hidden>
+
+<script src="src/html-source.js"></script>
+<script src="src/data-source.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
